@@ -1,0 +1,52 @@
+@import '../../styles/variables.less';
+
+.search {
+    width: calc(100vw - 70px);
+
+    &__label {
+        color: white;
+        text-transform: uppercase;
+        font-size: 14px;
+    }
+    
+    &__input-container {
+        height: 44px;
+        display: flex;
+        align-items: center;
+        margin-top: 12px;
+    }
+
+    &__input {
+        border: none;
+        height: 100%;
+        width: 100%;
+        max-width: 600px;
+        padding: 0 12px;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    &__button {
+        border: none;
+        margin: 0;
+        height: 100%;
+        min-width: 150px;
+        text-align: center;
+        width: fit-content;
+        font: inherit;
+        font-size: 14px;
+        text-transform: uppercase;
+        cursor: pointer;
+        background-color: @red;
+        color: white;
+        
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .search {
+        &__button {
+            min-width: 80px;
+        }
+    }
+  }

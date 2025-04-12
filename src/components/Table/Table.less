@@ -2,28 +2,35 @@
 
 .table {
   width: 100%;
-  max-width: 1200px;
+  margin: 12px 0;
   border-collapse: collapse;
-}
+  
+  &__wrapper {
+    max-width: @maxWidth;
+    overflow-x: auto;
+  }
 
-.table__header {
-  border-bottom: 1px solid @grey;
-}
+  &__header {
+    border-bottom: 1px solid @grey;
+    width: 100%
+  }
 
-.table__header-cell {
-  color: @grey;
-  text-align: left;
-  font-size: 12px;
-  font-weight: 400;
-  padding: 16px 12px;
-}
+  &__header-cell {
+    color: @grey;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 400;
+    padding: 16px 12px;
+  }
 
-.table__row {
-  border-bottom: 1px solid @grey;
-}
+  &__row {
+    border-bottom: 1px solid @grey;
+    width: 100%
+  }
 
-.table__cell {
-  color: @darkBlue;
-  font-weight: 600;
-  padding: 16px 12px;
+  &__cell {
+    color: @darkBlue;
+    font-weight: 600;
+    padding: 16px 12px; 
+  }
 }
