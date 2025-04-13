@@ -12,7 +12,7 @@
 
   &__header {
     border-bottom: 1px solid @grey;
-    width: 100%
+    width: 100%;
   }
 
   &__header-cell {
@@ -21,11 +21,32 @@
     font-size: 12px;
     font-weight: 400;
     padding: 16px 12px;
+    min-width: 100px;
+    :hover {
+      cursor: pointer;
+    }
+    &.align-right {
+      justify-items: right;
+      text-align: right;
+    }
+    &.align-center {
+      justify-items: center;
+    }
+  }
+
+  &__header-cell-flex {
+    display: flex;
+    align-items: center;
   }
 
   &__row {
     border-bottom: 1px solid @grey;
-    width: 100%
+    width: 100%;
+  }
+
+  .table__row td:nth-child(2),
+  .table__row td:nth-child(4) {
+    min-width: 110px;
   }
 
   &__row-no-data {
@@ -37,6 +58,32 @@
   &__cell {
     color: @darkBlue;
     font-weight: 600;
-    padding: 16px 12px; 
+    padding: 12px 36px 12px 16px;
+   
+    &.align-right {
+      text-align: right;
+    }
+    &.align-center {
+      text-align: center;
+    }
+  }
+
+  .table__header-arrow-wrapper {
+    display: inline-block;
+    width: 20px;
+    padding-left: 4px;
+    height: 16px;
+    line-height: 16px;
+    vertical-align: middle;
+  }
+
+  .arrow-asc {
+    transform: rotate(0deg);
+    transition: transform 0.2s ease;
+  }
+  
+  .arrow-desc {
+    transform: rotate(180deg);
+    transition: transform 0.2s ease
   }
 }

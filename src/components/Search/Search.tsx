@@ -1,8 +1,10 @@
 import { Dispatch, SetStateAction, useState } from 'react'
-import { useDebts } from '../../hooks/useDebts'
 import { Container } from '../Container/Container'
 import { Debt } from '../../types/Debt'
 import './Search.less'
+import { getFilteredDebts, getTopDebts } from '../../api/debts'
+import { useSort } from '../../hooks/useSort'
+import { Headers } from '../../utils/debts'
 
 type Props = {
     setDebts: Dispatch<SetStateAction<Debt[]>>
@@ -13,11 +15,19 @@ type Props = {
 export const Search: React.FC<Props> = ({ setDebts, setLoading, loading }) => {
     const [phrase, setPhrase] = useState("")
     const [error, setError] = useState("")
-    const { getFilteredDebts } = useDebts();
+    const { sortByColumn } = useSort(setDebts)
 
-    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const onChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setPhrase(value);
+
+        if(!value.length) {
+            getTopDebts().then(data => {
+                setDebts(data);
+                sortByColumn(data, Headers.Name);
+            });
+        }
+
         if(error && value.length > 2) {
             setError("")
         }

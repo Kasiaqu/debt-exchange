@@ -1,19 +1,6 @@
-import { Debt } from "../types/Debt";
-import { format } from "date-fns";
+import { convertData } from "../utils/debts";
 
-export const useDebts = () => {
-  const headers = ["Dłużnik", "NIP", "Kwota zadłużenia", "Data powstania zobowiązania"];
-  
-  const convertData = (data: Debt[]) => data.map((debt) => {
-    return {
-      name: debt.Name,
-      nip: debt.NIP,
-      amount: debt.Value,
-      date: format(debt.Date, "dd-MM-yyyy"),
-    };
-  });
-
-  const getTopDebts = async () => {
+export const getTopDebts = async () => {
     try {
       const response = await fetch("https://rekrutacja-webhosting-it.krd.pl/api/Recruitment/GetTopDebts", {
         headers: {
@@ -36,7 +23,7 @@ export const useDebts = () => {
     }
   };
 
-  const getFilteredDebts = async (phrase: string) => {
+export const getFilteredDebts = async (phrase: string) => {
     try {
 
       const response = await fetch('https://rekrutacja-webhosting-it.krd.pl/api/Recruitment/GetFilteredDebts', {
@@ -62,6 +49,4 @@ export const useDebts = () => {
       console.error('Error fetching data:', error);
       throw error
     }
-  }
-  return { getTopDebts, headers, getFilteredDebts };
-};
+}
