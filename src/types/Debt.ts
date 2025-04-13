@@ -1,6 +1,6 @@
 export type Debt = {
   Address: string;
-  Date: Date;
+  Date: string;
   DocumentType: string;
   Id: number;
   NIP: string;

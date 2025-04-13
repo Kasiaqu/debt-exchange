@@ -1,13 +1,28 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import "./Table.less";
 import { Container } from '../Container/Container';
+import { useDebts } from '../../hooks/useDebts';
+import { Debt } from '../../types/Debt';
+import { Loader } from '../Loader/Loader';
 
 type Props = {
-  data: { [key: string]: string | number }[];
-  headers: string[];
-};
+  debts: Debt[];
+  setDebts: Dispatch<SetStateAction<Debt[]>>
+  loading: boolean;
+  
+}
 
-export const Table: React.FC<Props> = ({ data, headers }) => {
+export const Table: React.FC<Props> = ({ debts, setDebts, loading }) => {
+  const { headers, getTopDebts } = useDebts();
+
+  useEffect(() => {
+      getTopDebts().then(data => setDebts(data))
+  }, []);
+
+  if(loading) {
+    return <Loader />
+  }
+
   return (
     <Container>
       <div className='table__wrapper'>
@@ -22,7 +37,8 @@ export const Table: React.FC<Props> = ({ data, headers }) => {
             </tr>
           </thead>
           <tbody className="table__body">
-            {data.map((row, rowIndex) => (
+            {debts.length
+            ? debts.map((row, rowIndex) => (
               <tr key={rowIndex} className="table__row">
                 {Object.values(row).map((value, colIndex) => (
                   <td key={colIndex} className="table__cell">
@@ -30,7 +46,13 @@ export const Table: React.FC<Props> = ({ data, headers }) => {
                   </td>
                 ))}
               </tr>
-            ))}
+            ))
+            : <tr className="table__row-no-data">
+                <td className="table__cell" colSpan={4}>
+                  Brak danych
+                </td>
+              </tr>
+            }
           </tbody>
         </table>
       </div>

@@ -1,18 +1,20 @@
 import { Search } from "./components/Search/Search";
 import { Table } from "./components/Table/Table";
-import { useDebts } from "./hooks/useDebts";
 import './App.less';
+import { useState } from "react";
+import { Debt } from "./types/Debt";
 
 function App() {
-  const { headers, data } = useDebts();
+  const [debts, setDebts] = useState<Debt[]>([]);
+  const [loading, setLoading] = useState(false)
 
   return (
     <div className="app">
       <div className="header">
-          <Search />
+          <Search setDebts={setDebts} setLoading={setLoading} loading={loading} />
       </div>
-        <Table data={data} headers={headers} />
-=    </div>
+      <Table debts={debts} setDebts={setDebts} loading={loading} />
+    </div>
   );
 }
 
