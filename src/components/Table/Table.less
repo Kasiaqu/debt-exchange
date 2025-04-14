@@ -4,10 +4,12 @@
   width: 100%;
   margin: 12px 0;
   border-collapse: collapse;
+  overflow-y: scroll;
   
   &__wrapper {
     max-width: @maxWidth;
     overflow-x: auto;
+    max-height: calc(100vh - 200px);
   }
 
   &__header {
@@ -24,6 +26,7 @@
     min-width: 100px;
     :hover {
       cursor: pointer;
+      color: @darkGrey;
     }
     &.align-right {
       justify-items: right;

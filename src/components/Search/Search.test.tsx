@@ -24,7 +24,9 @@ test("show error message if phrase length is less than 3", async () => {
   const button = screen.getByRole("button", { name: /szukaj/i });
   fireEvent.click(button);
 
-  expect(await screen.findByText("Minimalna długość to 3")).toBeInTheDocument();
+  expect(
+    await screen.findByText("Wpisz co najmniej 3 znaki")
+  ).toBeInTheDocument();
 });
 
 test("return array with one object if only one matches the search phrase", async () => {
