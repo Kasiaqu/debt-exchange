@@ -1,4 +1,4 @@
-export type Debt = {
+export type DebtDto = {
   Address: string;
   Date: string;
   DocumentType: string;
@@ -7,5 +7,12 @@ export type Debt = {
   Name: string;
   Number: string;
   Price: number;
+  Value: number;
+};
+
+export type Debt = {
+  Date: string;
+  NIP: string;
+  Name: string;
   Value: number;
 };

@@ -1,6 +1,6 @@
-import { Debt } from "../types/Debt";
+import { DebtDto } from "../types/Debt";
 
-export const convertData = (data: Debt[]) => data.map((debt) => {
+export const convertData = (data: DebtDto[]) => data.map((debt) => {
   return {
     Name: debt.Name,
     NIP: debt.NIP,

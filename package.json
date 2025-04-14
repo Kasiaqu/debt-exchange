@@ -39,11 +39,14 @@
     ]
   },
   "devDependencies": {
+    "@types/jest": "^29.5.14",
     "@types/react": "^19.1.1",
     "@types/react-dom": "^19.1.2",
     "concurrently": "^9.1.2",
+    "jest": "^29.7.0",
     "less": "^4.3.0",
     "less-loader": "^12.2.0",
-    "less-watch-compiler": "^1.16.3"
+    "less-watch-compiler": "^1.16.3",
+    "ts-jest": "^29.3.2"
   }
 }
