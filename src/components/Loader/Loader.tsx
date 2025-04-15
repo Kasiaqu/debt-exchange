@@ -1,7 +1,9 @@
-import './Loader.less'
+import "./Loader.less";
 
 export const Loader = () => {
-    return <div className='loader__container' data-testid="loader">
-        <div className="loader" />
+  return (
+    <div className="loader__container" data-testid="loader">
+      <div className="loader" />
     </div>
-}
+  );
+};
