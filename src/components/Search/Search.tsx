@@ -1,31 +1,27 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { Container } from "../Container/Container";
-import { Debt } from "../../types/Debt";
 import "./Search.less";
-import { getFilteredDebts, getTopDebts } from "../../api/debts";
-import { useSort } from "../../hooks/useSort";
-import { Headers } from "../../utils/debts";
 
 type Props = {
-  setDebts: Dispatch<SetStateAction<Debt[]>>;
-  setLoading: Dispatch<SetStateAction<boolean>>;
   loading: boolean;
+  loadFilteredDebts: (a: string) => void;
+  loadTopDebts: () => void;
 };
 
-export const Search: React.FC<Props> = ({ setDebts, setLoading, loading }) => {
+export const Search: React.FC<Props> = ({
+  loading,
+  loadFilteredDebts,
+  loadTopDebts,
+}) => {
   const [phrase, setPhrase] = useState("");
   const [error, setError] = useState("");
-  const { sortByColumn } = useSort(setDebts);
 
   const onChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setPhrase(value);
 
     if (!value.length) {
-      getTopDebts().then((data) => {
-        setDebts(data);
-        sortByColumn(data, Headers.Name);
-      });
+      loadTopDebts();
     }
 
     if (error && value.length > 2) {
@@ -38,10 +34,7 @@ export const Search: React.FC<Props> = ({ setDebts, setLoading, loading }) => {
     if (phrase.length < 3) {
       setError("Wpisz co najmniej 3 znaki");
     } else {
-      setLoading(true);
-      const data = await getFilteredDebts(phrase);
-      setDebts(data);
-      setLoading(false);
+      loadFilteredDebts(phrase);
     }
   };
 

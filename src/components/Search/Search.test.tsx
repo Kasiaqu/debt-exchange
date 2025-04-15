@@ -1,7 +1,6 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { Search } from "./Search";
 import "@testing-library/jest-dom";
-import { getFilteredDebts } from "../../api/debts";
 import { mockData } from "../Table/Table.test";
 
 jest.mock("../../api/debts", () => ({
@@ -15,7 +14,11 @@ afterEach(() => {
 
 test("show error message if phrase length is less than 3", async () => {
   render(
-    <Search setDebts={jest.fn()} setLoading={jest.fn()} loading={false} />
+    <Search
+      loadTopDebts={jest.fn()}
+      loadFilteredDebts={jest.fn()}
+      loading={false}
+    />
   );
 
   const input = screen.getByRole("searchbox");
@@ -30,13 +33,16 @@ test("show error message if phrase length is less than 3", async () => {
 });
 
 test("return array with one object if only one matches the search phrase", async () => {
-  const setDebts = jest.fn();
-  const setLoading = jest.fn();
+  const loadFilteredDebts = jest.fn();
 
-  (getFilteredDebts as jest.Mock).mockResolvedValueOnce([mockData[0]]);
+  (loadFilteredDebts as jest.Mock).mockResolvedValueOnce([mockData[0]]);
 
   render(
-    <Search setDebts={setDebts} setLoading={setLoading} loading={false} />
+    <Search
+      loadTopDebts={jest.fn()}
+      loadFilteredDebts={loadFilteredDebts}
+      loading={false}
+    />
   );
 
   const input = screen.getByRole("searchbox");
@@ -46,21 +52,20 @@ test("return array with one object if only one matches the search phrase", async
   fireEvent.click(button);
 
   await waitFor(() => {
-    expect(getFilteredDebts).toHaveBeenCalledWith("Name 1");
-  });
-  await waitFor(() => {
-    expect(setDebts).toHaveBeenCalledWith([mockData[0]]);
+    expect(loadFilteredDebts).toHaveBeenCalledWith("Name 1");
   });
 });
 
 test("return an empty array if no matching data is found", async () => {
-  const setDebts = jest.fn();
-  const setLoading = jest.fn();
-
-  (getFilteredDebts as jest.Mock).mockResolvedValueOnce([]);
+  const loadFilteredDebts = jest.fn();
+  (loadFilteredDebts as jest.Mock).mockResolvedValueOnce([]);
 
   render(
-    <Search setDebts={setDebts} setLoading={setLoading} loading={false} />
+    <Search
+      loadTopDebts={jest.fn()}
+      loadFilteredDebts={loadFilteredDebts}
+      loading={false}
+    />
   );
 
   const input = screen.getByRole("searchbox");
@@ -70,9 +75,6 @@ test("return an empty array if no matching data is found", async () => {
   fireEvent.click(button);
 
   await waitFor(() => {
-    expect(getFilteredDebts).toHaveBeenCalledWith("Non-matching phrase");
-  });
-  await waitFor(() => {
-    expect(setDebts).toHaveBeenCalledWith([]);
+    expect(loadFilteredDebts).toHaveBeenCalledWith("Non-matching phrase");
   });
 });

@@ -1,62 +1,22 @@
-import React, { Dispatch, SetStateAction, useEffect } from "react";
 import "./Table.less";
 import { Container } from "../Container/Container";
-import { Debt } from "../../types/Debt";
 import { Loader } from "../Loader/Loader";
-import { formatDate } from "date-fns";
-import { headers, Headers } from "../../utils/debts";
-import { getTopDebts } from "../../api/debts";
-import { useSort } from "../../hooks/useSort";
+import { alignCell, formatValue, headers, Headers } from "../../utils/debts";
+import { Debt } from "../../types/Debt";
 
 type Props = {
   debts: Debt[];
-  setDebts: Dispatch<SetStateAction<Debt[]>>;
   loading: boolean;
+  sort: { order: "asc" | "desc"; column: Headers };
+  sortByColumn: (data: Debt[], column: Headers) => void;
 };
 
-export const Table: React.FC<Props> = ({ debts, setDebts, loading }) => {
-  const { sortByColumn, sortColumn, sortOrder } = useSort(setDebts);
-
-  const formatValue = (header: Headers, value: string | number) => {
-    switch (header) {
-      case Headers.Name:
-        return value;
-      case Headers.NIP:
-        return (value as string).replace(
-          /(\d{3})(\d{3})(\d{2})(\d{2})/,
-          "$1-$2-$3-$4"
-        );
-      case Headers.Value:
-        return value.toLocaleString("pl-PL").padStart(8, " ");
-      case Headers.Date:
-        return formatDate(value, "dd-MM-yyyy");
-      default:
-        return value;
-    }
-  };
-
-  const alignCell = (header: Headers) => {
-    switch (header) {
-      case Headers.Name:
-        return "";
-      case Headers.NIP:
-        return "align-center no-wrap";
-      case Headers.Value:
-        return "align-right";
-      case Headers.Date:
-        return "align-right";
-      default:
-        return "";
-    }
-  };
-
-  useEffect(() => {
-    getTopDebts().then((data) => {
-      setDebts(data);
-      sortByColumn(data, Headers.Name);
-    });
-  }, []);
-
+export const Table: React.FC<Props> = ({
+  debts,
+  loading,
+  sort,
+  sortByColumn,
+}) => {
   if (loading) {
     return <Loader />;
   }
@@ -76,12 +36,12 @@ export const Table: React.FC<Props> = ({ debts, setDebts, loading }) => {
                   <div className={`table__header-cell-flex`}>
                     <div>{header.title.toLocaleUpperCase()}</div>
                     <div className="table__header-arrow-wrapper">
-                      {sortColumn === header.name && (
+                      {sort.column === header.name && (
                         <img
                           src="arrow.svg"
                           alt="arrow"
                           className={`table__header-arrow ${
-                            sortOrder === "asc" ? "arrow-asc" : "arrow-desc"
+                            sort.order === "asc" ? "arrow-asc" : "arrow-desc"
                           }`}
                           height="12px"
                           width="auto"
